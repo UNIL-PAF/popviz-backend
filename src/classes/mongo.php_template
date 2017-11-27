@@ -1,0 +1,33 @@
+<?php
+/**
+ * Created by IntelliJ IDEA.
+ * User: vioannid
+ * Date: 13.11.17
+ * Time: 15:28
+ */
+
+namespace Src\Classes\Mongo;
+
+/** Database config */
+const DB_USERNAME = 'dbuser';
+const DB_PASSWORD = 'dbpassword';
+const DB_HOST = 'mongodb://localhost:27017';
+const DB_NAME = "dbname";
+const DB_COLLECTION = 'dbcollection';
+const DB_PREFIX = "";
+
+/** with authentication **/
+//const DB_AUTH_HOST = "mongodb://dbuser:dbpassword@localhost:27017/dbname";
+
+/** without authentication **/
+const DB_AUTH_HOST = "mongodb://localhost:27017/dbname";
+
+/** Debug modes */
+/** change to true for development **/
+const PHP_DEBUG_MODE = false;
+const SLIM_DEBUG = false;
+
+/** ERROR CODE **/
+
+
+/** MESSAGES **/
