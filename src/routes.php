@@ -13,7 +13,7 @@ $app->get('/protein/{protein}', function (Request $request, Response $response, 
     // OK for fetch proteinAC
     try {
         $mng = new MongoDB\Driver\Manager(\Src\Classes\Mongo\DB_AUTH_HOST);
-        $filter = [ 'proteinAC' => $arg ];
+        $filter = [ 'alternativeProteinACs' => $arg ];
         $query = new MongoDB\Driver\Query($filter);
         $res = $mng->executeQuery(\Src\Classes\Mongo\DB_NAME.".".\Src\Classes\Mongo\DB_COLLECTION, $query);
         $prot = current($res->toArray());
@@ -40,14 +40,14 @@ $app->get('/query/{query}', function (Request $request, Response $response, $arg
     // search with partial matches
     try {
         $mng = new MongoDB\Driver\Manager(\Src\Classes\Mongo\DB_AUTH_HOST);
-        $filter = ['fastaHeaders' => new MongoDB\BSON\Regex( "$arg", 'i' )];
+        $filter = ['searchTerm' => new MongoDB\BSON\Regex( "$arg", 'i' )];
         $options = ['limit' => 100];
         $query = new MongoDB\Driver\Query($filter,$options);
-        $res = $mng->executeQuery(\Src\Classes\Mongo\DB_NAME.".".\Src\Classes\Mongo\DB_COLLECTION, $query);
+        $res = $mng->executeQuery(\Src\Classes\Mongo\DB_NAME.".".\Src\Classes\Mongo\SEARCH_COLLECTION, $query);
         if (!empty($res)) {
             $output = array();
             foreach ($res as $row) {
-                $output[] = array('proteinAC'=>"$row->proteinAC",'fastaHeaders'=>"$row->fastaHeaders");
+                $output[] = array('proteinAC'=>"$row->proteinAC",'searchTerm'=>"$row->searchTerm");
             }
             print_r(json_encode($output));
         } else {
