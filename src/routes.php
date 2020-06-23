@@ -33,25 +33,28 @@ $app->get('/fasta/{protein}', function (Request $request, Response $response, $a
     }
 });
 
-// returns json object with all proteinAC data
+
 $app->get('/protein/{protein}', function (Request $request, Response $response, $args) {
     $arg = $request->getAttribute('protein');
     $this->logger->addInfo("arg: " . $arg);
 
     // OK for fetch proteinAC
     try {
-        $mng = new MongoDB\Driver\Manager(\Src\Classes\Mongo\DB_AUTH_HOST);
-        $filter = [ 'alternativeProteinACs' => $arg ];
-        $query = new MongoDB\Driver\Query($filter);
-        $res = $mng->executeQuery(\Src\Classes\Mongo\DB_NAME.".proteins", $query);
-        $prot = current($res->toArray());
-        if (!empty($prot)) {
-            return json_encode($prot);
+        $collection = (new MongoDB\Client(\Src\Classes\Mongo\DB_AUTH_HOST))->selectDatabase(\Src\Classes\Mongo\DB_NAME)->proteins;
+
+        $cursor = $collection->find(['alternativeProteinACs' => $arg]);
+        $prots = $cursor->toArray();
+
+        if (!empty($prots)) {
+            foreach ($prots as $prot) {
+                if ($prot->proteinAC == $arg) return json_encode($prot);
+            }
+            return json_encode($prots[0]);
         } else {
             echo "No match found\n";
             throw new \Slim\Exception\NotFoundException($request, $response);
         }
-    } catch (MongoDB\Driver\Exception\Exception $e) {
+    }catch (MongoDB\Driver\Exception\Exception $e) {
         $filename = basename(__FILE__);
         echo "The $filename script has experienced an error.\n";
         echo "It failed with the following exception:\n";
