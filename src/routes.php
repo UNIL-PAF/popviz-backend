@@ -107,7 +107,7 @@ $app->get('/descriptions/{proteinACs}', function (Request $request, Response $re
     try {
         $collection = (new MongoDB\Client(\Src\Classes\Mongo\DB_AUTH_HOST))->selectDatabase(\Src\Classes\Mongo\DB_NAME)->fasta;
         $query = ['ac' => ['$in' => $protein_acs]];
-        $projection = ['projection' => ['gene_name' => true, '_id' => false, 'protein_name' => true]];
+        $projection = ['projection' => ['gene_name' => true, '_id' => false, 'protein_name' => true, 'ac' => true]];
         $cursor = $collection->find($query, $projection);
         $descs = $cursor->toArray();
 
