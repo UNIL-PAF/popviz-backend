@@ -1,11 +1,14 @@
-# Slim Framework 3 backend application
+# PopViz backend
 
-This REST-API application is the Slim/PHP version of:  
-https://gitlab.sib.swiss/rmylonas/slice-silac-viz-backend
+## Description
 
-This application works with the following frontend react application:  
-https://gitlab.sib.swiss/rmylonas/slice-silac-viz-ui
+This is the REST-API of [PopViz](https://popviz.vital-it.ch/) developed for the Department of Physiology at the University of Lausanne.
+It is written with Slim/PHP.
 
+This application works with the following ReactJS frontend application:  
+https://github.com/UNIL-PAF/popviz-frontend
+
+----
 
 ###Requirements:
 
